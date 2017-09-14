@@ -1,0 +1,58 @@
+---
+title: "homework#4"
+author: "Tianqi Wang"
+date: "November 5, 2016"
+output: word_document
+---
+
+```{r}
+iris=read.csv("F:\\iris.csv",header=FALSE, stringsAsFactors=FALSE)
+
+colnames(iris)=c("sepalLen","sepalwid","petalLen","petalwid","Class")
+
+library(class)
+
+k1=sample(nrow(iris),50)                 #randomly choose the test data
+
+test=iris[k1,c(2)]
+
+testreal=iris[k1,c(5)]
+
+newiris=iris[-k1,]
+
+a=c(1:50)
+
+for(j in c(1:100)){                               
+
+k2=sample(nrow(newiris),replace=TRUE)     #choose 100 train data for 100 times
+
+train=newiris[k2,c(2)]
+
+cl=newiris[k2,c(5)]
+
+result=as.character(knn(matrix(train,ncol=1),matrix(test,ncol=1),cl,k=5))
+
+a=rbind(a,result)
+
+}
+
+candidate=a[-1,]                                   
+
+vote=vector(mode="character",length=0)
+
+for(j in c(1:50)){
+  
+  vote[j]=as.character(names(table(candidate[,j])))[which.max(table(candidate[,j]))]
+  
+}                                         #calculate the mode
+                                          
+
+table(vote,testreal)
+
+m=table(vote,testreal)
+
+accuracy=(m[1,1]+m[2,2]+m[3,3])/50
+
+accuracy
+
+```

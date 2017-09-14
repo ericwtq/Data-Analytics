@@ -1,0 +1,341 @@
+---
+title: "test"
+author: "Tianqi Wang"
+date: "November 8, 2016"
+output: word_document
+---
+
+```{r}
+PLAYER12=read.csv("F:\\2725P\\12PLAYER.csv",header=TRUE, stringsAsFactors=FALSE)
+
+PLAYER13=read.csv("F:\\2725P\\13PLAYER.csv",header=TRUE, stringsAsFactors=FALSE)
+
+PLAYER14=read.csv("F:\\2725P\\14PLAYER.csv",header=TRUE, stringsAsFactors=FALSE)
+
+PLAYER15=read.csv("F:\\2725P\\15PLAYER.csv",header=TRUE, stringsAsFactors=FALSE)
+
+PLAYER16=read.csv("F:\\2725P\\16PLAYER.csv",header=TRUE, stringsAsFactors=FALSE)
+
+TEAM13=read.csv("F:\\2725P\\13TEAM.csv",header=TRUE, stringsAsFactors=FALSE)
+
+TEAM14=read.csv("F:\\2725P\\14TEAM.csv",header=TRUE, stringsAsFactors=FALSE)
+
+TEAM15=read.csv("F:\\2725P\\15TEAM.csv",header=TRUE, stringsAsFactors=FALSE)
+
+TEAM16=read.csv("F:\\2725P\\16TEAM.csv",header=TRUE, stringsAsFactors=FALSE)
+
+PLAYER13[PLAYER13$Player=="Damion James",c(7)]=0
+
+TEAM16$Season=c(rep(2016,30))
+
+TEAM16$WinR=TEAM16$WinR*100
+
+TEAM15$Season=c(rep(2015,30))
+
+TEAM14$Season=c(rep(2014,30))
+
+TEAM13$Season=c(rep(2013,30))
+
+TEAMALL=rbind(TEAM13,TEAM14,TEAM15,TEAM16)
+
+PLAYER16=PLAYER16[,-c(8)]
+
+PLAYER15=PLAYER15[,-c(8)]
+
+PLAYER14=PLAYER14[,-c(8)]
+
+PLAYER13$Season=c(rep(2013,573))
+
+PLAYER14$Season=c(rep(2014,611))
+
+PLAYER12$Season=c(rep(2012,551))
+
+PLAYER15$Season=c(rep(2015,651))
+
+PLAYER16$Season=c(rep(2016,578))
+
+PLAYERALL=rbind(PLAYER12,PLAYER13,PLAYER14,PLAYER15,PLAYER16)
+
+n13t=read.csv("F:\\Pitt\\Fall 2016\\data anlystics\\assignment\\n13t.csv",header=TRUE, stringsAsFactors=FALSE)
+n13t$Season=rep(2013,30)
+
+n14t=read.csv("F:\\Pitt\\Fall 2016\\data anlystics\\assignment\\n14t.csv",header=TRUE, stringsAsFactors=FALSE)
+n14t$Season=rep(2014,30)
+
+n15t=read.csv("F:\\Pitt\\Fall 2016\\data anlystics\\assignment\\n15t.csv",header=TRUE, stringsAsFactors=FALSE)
+n15t$Season=rep(2015,30)
+
+n16t=read.csv("F:\\Pitt\\Fall 2016\\data anlystics\\assignment\\n16t.csv",header=TRUE, stringsAsFactors=FALSE)
+n16t$Season=rep(2016,30)
+n16t$WinR=(n16t$WinR)*100
+
+nall=rbind(n16t,n15t,n14t,n13t)
+```
+
+
+```{r}
+library(ggplot2)
+
+ggplot(TEAMALL,aes(x=WinR))+geom_histogram(fill="white",color="black")+facet_grid(Season ~ .)
+
+ggplot(nall,aes(x=WinR,y=TmV,colour=Conference))+geom_point()+facet_grid(Season ~ .)
+
+
+```
+
+
+
+```{R}
+pg2016=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="PG"&PLAYERALL$Season==2016,]
+pg2016max=pg2016[which.max(pg2016$PER),]
+
+sg2016=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="SG"&PLAYERALL$Season==2016,]
+sg2016max=sg2016[which.max(sg2016$PER),]
+
+sf2016=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="SF"&PLAYERALL$Season==2016,]
+sf2016max=sf2016[which.max(sf2016$PER),]
+
+pf2016=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="PF"&PLAYERALL$Season==2016,]
+pf2016max=pf2016[which.max(pf2016$PER),]
+
+c2016=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="C"&PLAYERALL$Season==2016,]
+c2016max=c2016[which.max(c2016$PER),]
+
+
+
+
+pg2015=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="PG"&PLAYERALL$Season==2015,]
+pg2015max=pg2015[which.max(pg2015$PER),]
+
+sg2015=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="SG"&PLAYERALL$Season==2015,]
+sg2015max=sg2015[which.max(sg2015$PER),]
+
+sf2015=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="SF"&PLAYERALL$Season==2015,]
+sf2015max=sf2015[which.max(sf2015$PER),]
+
+pf2015=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="PF"&PLAYERALL$Season==2015,]
+pf2015max=pf2015[which.max(pf2015$PER),]
+
+c2015=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="C"&PLAYERALL$Season==2015,]
+c2015max=c2015[which.max(c2015$PER),]
+
+
+
+
+pg2014=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="PG"&PLAYERALL$Season==2014,]
+pg2014max=pg2014[which.max(pg2014$PER),]
+
+sg2014=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="SG"&PLAYERALL$Season==2014,]
+sg2014max=sg2014[which.max(sg2014$PER),]
+
+sf2014=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="SF"&PLAYERALL$Season==2014,]
+sf2014max=sf2014[which.max(sf2014$PER),]
+
+pf2014=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="PF"&PLAYERALL$Season==2014,]
+pf2014max=pf2014[which.max(pf2014$PER),]
+
+c2014=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="C"&PLAYERALL$Season==2014,]
+c2014max=c2014[which.max(c2014$PER),]
+
+
+
+pg2013=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="PG"&PLAYERALL$Season==2013,]
+pg2013max=pg2013[which.max(pg2013$PER),]
+
+sg2013=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="SG"&PLAYERALL$Season==2013,]
+sg2013max=sg2013[which.max(sg2013$PER),]
+
+sf2013=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="SF"&PLAYERALL$Season==2013,]
+sf2013max=sf2013[which.max(sf2013$PER),]
+
+pf2013=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="PF"&PLAYERALL$Season==2013,]
+pf2013max=pf2013[which.max(pf2013$PER),]
+
+c2013=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="C"&PLAYERALL$Season==2013,]
+c2013max=c2013[which.max(c2013$PER),]
+
+
+
+pg2012=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="PG"&PLAYERALL$Season==2012,]
+pg2012max=pg2012[which.max(pg2012$PER),]
+
+sg2012=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="SG"&PLAYERALL$Season==2012,]
+sg2012max=sg2012[which.max(sg2012$PER),]
+
+sf2012=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="SF"&PLAYERALL$Season==2012,]
+sf2012max=sf2012[which.max(sf2012$PER),]
+
+pf2012=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="PF"&PLAYERALL$Season==2012,]
+pf2012max=pf2012[which.max(pf2012$PER),]
+
+c2012=PLAYERALL[PLAYERALL$G>=60&PLAYERALL$Pos=="C"&PLAYERALL$Season==2012,]
+c2012max=c2012[which.max(c2012$PER),]
+
+
+allmax=rbind(pg2016max,pg2015max,pg2014max,pg2013max,pg2012max,sg2012max,sg2013max,sg2014max,sg2015max,sg2016max,sg2012max,sg2013max,sg2014max,sg2015max,sg2016max,pf2012max,pf2013max,pf2014max,pf2015max,pf2016max,c2012max,c2013max,c2014max,c2015max,c2016max,sf2012max,sf2013max,sf2014max,sf2015max,sf2016max)
+```
+
+
+
+```{r}
+ggplot(allmax,aes(x=Season,y=PER,fill=Pos))+geom_bar(position="dodge",stat="identity")
+
+```
+
+
+
+
+```{r}
+
+A1=tapply(PLAYER16$PER,PLAYER16$Pos,mean)
+
+A2=tapply(PLAYER15$PER,PLAYER15$Pos,mean)
+
+A3=tapply(PLAYER14$PER,PLAYER14$Pos,mean)
+
+A4=tapply(PLAYER13$PER,PLAYER13$Pos,mean)
+
+A5=tapply(PLAYER12$PER,PLAYER12$Pos,mean)
+
+A1
+A2
+A3
+A4
+A5
+
+```
+
+
+
+```{r}
+
+kp13=read.csv("F:\\2725P\\predict\\Classifier\\kp13.csv",header=TRUE, stringsAsFactors=FALSE)
+
+kp14=read.csv("F:\\2725P\\predict\\Classifier\\kp14.csv",header=TRUE, stringsAsFactors=FALSE)
+
+kp15=read.csv("F:\\2725P\\predict\\Classifier\\kp15.csv",header=TRUE, stringsAsFactors=FALSE)
+
+kp16=read.csv("F:\\2725P\\predict\\Classifier\\kp16.csv",header=TRUE, stringsAsFactors=FALSE)
+
+team13=read.csv("F:\\2725P\\predict\\Classifier\\13TEAM.csv",header=TRUE, stringsAsFactors=FALSE)
+
+kp13$AB=kp13$MP*kp13$TV
+
+kp14$AB=kp14$MP*kp14$TV
+
+kp15$AB=kp15$MP*kp15$TV
+
+kp16$AB=kp16$MP*kp16$TV
+
+kp13=kp13[,c(2,5)]
+
+B=tapply(kp13$AB,kp13$Tm,sum)
+
+B=as.data.frame(B)
+
+
+
+
+```
+
+
+```{r}
+
+t13=read.csv("F:\\2725P\\predict\\13t.csv",header=TRUE, stringsAsFactors=FALSE)
+
+t14=read.csv("F:\\2725P\\predict\\14t.csv",header=TRUE, stringsAsFactors=FALSE)
+
+t15=read.csv("F:\\2725P\\predict\\15t.csv",header=TRUE, stringsAsFactors=FALSE)
+
+t16=read.csv("F:\\2725P\\predict\\16t.csv",header=TRUE, stringsAsFactors=FALSE)
+
+library(class)
+
+t13e=t13[t13$Conference==1,]
+
+t13w=t13[t13$Conference==0,]
+
+t14e=t14[t14$Conference==1,]
+
+t14w=t15[t14$Conference==0,]
+
+train=t14w$TmV
+
+test=t15w$TmV
+
+testreal15=t14w$Class
+
+cl=t13w$Class
+
+result=knn(matrix(train,ncol=1),matrix(test,ncol=1),cl,k=2)
+
+table(result,testreal)
+
+```
+
+
+
+
+```{r}
+t13=read.csv("F:\\2725P\\predict\\13t.csv",header=TRUE, stringsAsFactors=FALSE)
+
+t14=read.csv("F:\\2725P\\predict\\14t.csv",header=TRUE, stringsAsFactors=FALSE)
+
+t15=read.csv("F:\\2725P\\predict\\15t.csv",header=TRUE, stringsAsFactors=FALSE)
+
+t16=read.csv("F:\\2725P\\predict\\16t.csv",header=TRUE, stringsAsFactors=FALSE)
+
+library(class)
+
+train=rbind(t15,t14,t13)
+
+trainw=train[train$Conference==0,c(6)]
+
+traine=train[train$Conference==1,c(6)]
+
+clw=train[train$Conference==0,c(5)]
+
+cle=train[train$Conference==1,c(5)]
+
+testw=t16[t16$Conference==0,c(6)]
+
+teste=t16[t16$Conference==1,c(6)]
+
+testwreal=t16[t15$Conference==0,c(5)]
+
+testereal=t16[t15$Conference==1,c(5)]
+
+result=knn(as.matrix(traine),as.matrix(teste),cl=cle,k=5)
+
+table(result,testereal)
+
+
+
+
+
+```
+
+
+
+
+```{R}
+modelresult=read.csv("F:\\Pitt\\Fall 2016\\data anlystics\\assignment\\modelresult.csv",header=TRUE, stringsAsFactors=FALSE)
+
+library(ggplot2)
+
+M=ggplot(modelresult[modelresult$Conference=="EAST",],aes(x=Season,y=result,fill=model))+geom_bar(position="dodge",stat="identity")
+M+ labs(title = "EAST")
+
+N=ggplot(modelresult[modelresult$Conference=="WEST",],aes(x=Season,y=result,fill=model))+geom_bar(position="dodge",stat="identity")
+N+ labs(title = "WEST")
+
+meanpos=read.csv("F:\\Pitt\\Fall 2016\\data anlystics\\assignment\\meanpos.csv",header=TRUE, stringsAsFactors=FALSE)
+
+ggplot(meanpos,aes(x=Season,y=MPER,fill=POS))+geom_bar(position="dodge",stat="identity")
+
+
+
+
+
+
+```

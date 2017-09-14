@@ -1,0 +1,110 @@
+---
+title: "Assignment#2"
+author: "Tianqi Wang"
+date: "October 5, 2016"
+output: word_document
+---
+
+create the data frame and add the dummy variable 
+
+```{r}
+
+iris=read.csv("F:\\iris.csv",header=FALSE, stringsAsFactors=FALSE)
+
+colnames(iris)=c("sepalLen","sepalwid","petalLen","petalwid","Class")
+
+iris2=iris[iris$Class=="Iris-virginica" | iris$Class=="Iris-versicolor",c(2, 4, 5)]
+
+Versicolor=c(rep(0,100))        
+
+iris2$Versicolor=Versicolor
+
+iris2$Versicolor[iris2$Class=="Iris-versicolor"]=1
+
+
+```
+
+
+create a random number and 
+divide the data in 10 groups based on the order
+
+```{r}
+
+set.seed(1234567)
+
+random=runif(100)
+
+iris2$order=random
+
+y=quantile(random,c(.9,.8,.7,.6,.5,.4,.3,.2,.1))
+
+y
+
+iris2$group[random>=y[1]]="A"
+
+iris2$group[random<y[1]&random>=y[2]]="B"
+
+iris2$group[random<y[2]&random>=y[3]]="C"
+
+iris2$group[random<y[3]&random>=y[4]]="D"
+
+iris2$group[random<y[4]&random>=y[5]]="E"
+
+iris2$group[random<y[5]&random>=y[6]]="F"
+
+iris2$group[random<y[6]&random>=y[7]]="G"
+
+iris2$group[random<y[7]&random>=y[8]]="H"
+
+iris2$group[random<y[8]&random>=y[9]]="I"
+
+iris2$group[random<y[9]]="J"
+
+final=iris2[,-c(5)]
+
+final
+
+
+```
+
+
+
+
+choose the groups and run a linear regression for ten times
+And keep track of the intercept, dummy variable coefficient, and sepal width coefficient
+
+```{r}
+
+x=c("A","B","C","D","E","F","G","H","I","J")
+
+intercept=c(1:10)
+
+swcoef=c(1:10)
+
+dvcoef=c(1:10)
+
+for(j in c(1:10)){
+  
+  final1=final[final$group!=x[j],]
+  
+  reg=lm(final1$petalwid~final1$sepalwid + final1$Versicolor)
+  
+  intercept[j]=reg$coefficients[1]
+  
+  swcoef[j]=reg$coefficients[2]
+  
+  dvcoef[j]=reg$coefficients[3]
+  
+}
+
+```
+
+use the hist()
+
+```{r}
+
+hist(intercept)
+hist(swcoef)
+hist(dvcoef)
+
+```

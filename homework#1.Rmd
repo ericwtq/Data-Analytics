@@ -1,0 +1,142 @@
+---
+title: 'Assignment #1'
+author: "Tianqi Wang"
+date: "September 18, 2016"
+output: word_document
+---
+create a uniform distribution 
+```{r}
+set.seed(1234567)      
+unif<- runif(1000000) #get a uniform distribution of one million numbers
+hist(unif)            
+summary(unif)       
+```
+
+
+
+
+
+
+
+
+run 1,000 instances of each sample size and calculate the mean of different sizes
+```{r}
+
+  numSamples=1000                 # num of samples - not size of sample
+  ubsamp=c(1:numSamples)          # create the vector (array)
+  for (n in c(2:4)){                         # 3 different sample sizes
+    for (repeats in c(1:numSamples)){        # numSamples instances of each size
+        number=n*10^(n-1)                          # size=20, 300, and 4,000
+        ubsamp[repeats]=mean(sample(unif,size=number,replace=TRUE))
+                                             # fill in a vector with 1,000 entries
+                                             # each of which is the mean of sample
+                                        
+        }
+    line=paste0("sample size is ",  number,  " and sample mean is " , 
+                mean(ubsamp))
+                                             # edit text and numbers together in
+                                             # one line
+    print (line)                             # and print it out.
+  }
+```
+
+
+
+
+
+
+
+create a biased section of different sizes and run 1,000 instances of each sample size and calculate the mean 
+```{r}
+               
+  numSamples=1000
+  ubsamp=c(1:numSamples)
+  for (n in c(2:4)){                         # 3 different sample sizes
+    for (repeats in c(1:numSamples)){        # numSamples instances of each size
+        number=n*10^(n-1)                          # size=20, 300, and 4,000
+        thisSample=c(1:number)
+        thisSample=sample(unif,size=number,replace=TRUE)
+        for (thisOne in c(1:number)){
+          if (thisSample[thisOne]>0.6&thisSample[thisOne]<0.7) thisSample[thisOne]=NA           
+        }
+        ubsamp[repeats]=mean(thisSample,na.rm=TRUE)
+                                             # fill in a vector with 1,000 entries
+                                             # each of which is the mean of sample
+        }
+    line=paste0("sample size is ",  number,  " and sample mean is " , 
+                mean(ubsamp))
+                                             # edit text and numbers together in
+                                             # one line
+    print (line)                             # and print it out.
+  }
+```
+
+
+
+```{r}
+mean(unif)
+sd(unif)
+```
+
+
+
+
+
+
+
+run 1,000 instances of each sample size and plot the mean of different size
+```{r}
+for (i in c(2:4)){
+  number=i*10^(i-1)
+  samplevector=c(1:1000)
+  for (j in c(1:1000)){
+    samplevector[j]=mean(sample(unif,size=number,replace=TRUE))
+    }
+  
+  if (i==2) {
+    hist(samplevector,col="red")
+  }
+  if (i==3) {
+    hist(samplevector,add=T,col="green")
+  }
+  if (i==4) {
+    hist(samplevector,add=T,col="Black")
+  }
+
+  print (paste0("sample size is ", number, " and sd is ", sd(samplevector)))
+}
+```
+
+
+
+
+
+
+
+
+optional:
+
+
+run 1,000 instances of each sample size,plot the standard deviation of different sizes and caculate the different from standard deviation
+```{r}
+popsd=sd(unif)
+for (i in c(2:4)){
+  number=i*10^(i-1)
+  samplevector=c(1:1000)
+  for (j in c(1:1000)){
+    samplevector[j]=sd(sample(unif,size=number,replace=TRUE))
+    }
+  
+  if (i==2) {
+    hist(samplevector,col="red")
+  }
+  if (i==3) {
+    hist(samplevector,add=T,col="green")
+  }
+  if (i==4) {
+    hist(samplevector,add=T,col="Black")
+  }
+
+  print (paste0("sample size is ", number, " and abs diff from sd is ", abs(popsd-mean(samplevector))))
+}
+```
